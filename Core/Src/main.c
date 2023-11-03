@@ -106,29 +106,34 @@ void MPU9250_Init(void)
 
 void MPU9250_Read_Accel(void)
 {
+	//Call accel address
 	uint8_t Rec_Data[6];
 	HAL_I2C_Mem_Read(&hi2c1, MPU9250_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
-
+	//Write accel data
 	Accel_X_RAW=(int16_t)(Rec_Data[0]<<8|Rec_Data[1]);
 	Accel_Y_RAW=(int16_t)(Rec_Data[2]<<8|Rec_Data[3]);
 	Accel_Z_RAW=(int16_t)(Rec_Data[4]<<8|Rec_Data[5]);
-
+	//Write accel axis
 	Ax=Accel_X_RAW/16384.0;
 	Ay=Accel_Y_RAW/16384.0;
 	Az=Accel_Z_RAW/16384.0;
 }
 void MPU9250_Read_Gyro()
 {
+	//Call Gyro address
 	uint8_t Rec_Gyro[6];
 	HAL_I2C_Mem_Read(&hi2c1, MPU9250_ADDR, GYRO_XOUT_H_REG, 1, Rec_Gyro, 6, 1000);
-
+	//Write gyro data
 	Gyro_X_RAW=(int16_t)(Rec_Gyro[0]<<8|Rec_Gyro[1]);
 	Gyro_Y_RAW=(int16_t)(Rec_Gyro[2]<<8|Rec_Gyro[3]);
 	Gyro_Z_RAW=(int16_t)(Rec_Gyro[4]<<8|Rec_Gyro[5]);
-
+	//Write gyro axis
 	Gx=Gyro_X_RAW/131.0;
 	Gy=Gyro_Y_RAW/131.0;
 	Gz=Gyro_Z_RAW/131.0;
+	//Write angle axis
+	Angle_roll = atan(Ay/sqrt((Ax*Ax)+(Az*Az)))*(1.0f/(3.142f/180.0f));
+        Angle_pitch = -atan(Ax/sqrt((Ay*Ay)+(Az*Az)))*(1.0f/(3.142f/180.0f));
 }
 /* USER CODE END 0 */
 
