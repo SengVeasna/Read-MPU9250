@@ -90,19 +90,18 @@ void MPU9250_Init(void)
 	Data=0;
 	HAL_I2C_Mem_Write(&hi2c1, MPU9250_ADDR, PWR_MGMT_1_REG, 1, &Data, 1, 1000);
 	HAL_Delay(50);
-	//
+	//Read SMPLRT
 	Data=0x07;
 	HAL_I2C_Mem_Write(&hi2c1, MPU9250_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, 1000);
 	HAL_Delay(50);
-
+	//Read ACCEL
 	Data=0x00;
 	HAL_I2C_Mem_Write(&hi2c1, MPU9250_ADDR, ACCEL_CONFIG_REG, 1, &Data, 1, 1000);
 	HAL_Delay(50);
-
+	//Read GYRO
 	Data=0x00;
 	HAL_I2C_Mem_Write(&hi2c1, MPU9250_ADDR, GYRO_CONFIG_REG, 1, &Data, 1, 1000);
 	HAL_Delay(50);
-
 }
 
 void MPU9250_Read_Accel(void)
@@ -130,12 +129,7 @@ void MPU9250_Read_Gyro()
 	Gx=Gyro_X_RAW/131.0;
 	Gy=Gyro_Y_RAW/131.0;
 	Gz=Gyro_Z_RAW/131.0;
-
-
-
 }
-
-
 /* USER CODE END 0 */
 
 /**
@@ -182,8 +176,6 @@ int main(void)
 	  HAL_Delay(10);
 	  MPU9250_Read_Accel();
 	  MPU9250_Read_Gyro();
-
-
   }
   /* USER CODE END 3 */
 }
